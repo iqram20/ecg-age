@@ -1,0 +1,43 @@
+# Python
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+
+# Environments / secrets
+.env
+.venv/
+venv/
+
+# Data
+data/
+datasets/
+private_validation/
+
+# Private provenance scripts
+scripts/original/
+
+# Model checkpoints
+*.pt
+*.pth
+*.ckpt
+
+# Patient-level outputs / manifests
+*predictions*.csv
+*subject*.csv
+*manifest*.csv
+
+# Training/evaluation outputs
+runs/
+outputs/
+results/*
+!results/README.md
+
+# SLURM validation artifacts
+locked_eval_*.out
+locked_eval_*.err
+validate_locked_test.sbatch
+
+# OS/editor
+.DS_Store
+.vscode/
+.idea/

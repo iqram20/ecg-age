@@ -1,0 +1,68 @@
+model:
+  name: ECG-Age
+  input_channels: 24
+  d_model: 192
+  transformer_depth: 6
+  attention_heads: 4
+  expected_trainable_parameters: 3532674
+
+signal:
+  sampling_frequency_hz: 500
+  duration_seconds: 10
+  target_length: 5000
+  physical_leads: 12
+
+preprocessing:
+  wfdb_signal: p_signal
+  normalization: mean_center_only
+  include_raw: true
+  use_first_derivative: true
+  scale_augmentation: false
+
+augmentation:
+  temporal_roll_probability: 0.5
+  temporal_roll_range_samples: [-40, 40]
+
+  additive_noise_probability: 0.5
+  additive_noise_sigma: 0.01
+
+  temporal_mask_probability: 0.3
+  temporal_mask_length_samples: [100, 400]
+
+  physical_lead_dropout_probability: 0.3
+
+training:
+  seed: 42
+  epochs: 60
+  patience: 10
+  min_delta: 0.0
+  batch_size: 64
+  num_workers: 8
+
+  optimizer: AdamW
+  learning_rate: 0.0003
+  weight_decay: 0.01
+
+  loss: SmoothL1Loss
+  smooth_l1_beta: 5.0
+
+  scheduler: CosineAnnealingLR
+  scheduler_t_max: 60
+
+  gradient_clip: 1.0
+  mixed_precision: true
+
+target:
+  normalization: train_set_mean_std
+  frozen_train_age_mean: 55.045702521873395
+  frozen_train_age_std: 20.83683569742911
+
+checkpoint:
+  frozen_primary_sha256: f9076fd3fb5dbda31b48069eac7b6517286f9e782ab4b8e3238821e7daf0e49a
+  frozen_epoch: 12
+  frozen_dev_mae: 7.3037867624605575
+
+evaluation:
+  bootstrap_replicates: 2000
+  bootstrap_seed: 20260819
+  age_gap_definition: predicted_age_minus_chronological_age
