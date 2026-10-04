@@ -1,0 +1,30 @@
+{
+  "format": "ecg-age-inference-v1",
+  "input": {
+    "sampling_frequency_hz": 500,
+    "duration_seconds": 10,
+    "samples_per_lead": 5000,
+    "physical_leads": 12,
+    "input_channels": 24,
+    "wfdb_signal": "p_signal",
+    "preprocessing": "per-lead mean centering followed by first temporal derivative concatenation",
+    "per_lead_std_normalization": false
+  },
+  "model": {
+    "class": "ECGAgeRegressor",
+    "d_model": 192,
+    "transformer_depth": 6,
+    "attention_heads": 4,
+    "trainable_parameters": 3532674
+  },
+  "target_normalization": {
+    "age_mean": 55.045702521873395,
+    "age_std": 20.83683569742911,
+    "inverse_transform": "predicted_age_years = normalized_output * age_std + age_mean"
+  },
+  "frozen_source_checkpoint": {
+    "sha256": "f9076fd3fb5dbda31b48069eac7b6517286f9e782ab4b8e3238821e7daf0e49a",
+    "selected_epoch": 12,
+    "variant": "raw_derivative_centered_physical_no_scale_aug"
+  }
+}
