@@ -2,9 +2,9 @@
 
 Official code for:
 
-**A Morphology-Aware Interpretable Hybrid Deep Learning Framework for ECG-Based Biological Age Estimation**
+**Morphology-aware deep learning for ECG-derived age estimation and its association with postoperative outcomes**
 
-This repository provides the cleaned implementation of the final frozen ECG-Age model, including signal preprocessing, model architecture, training, and evaluation.
+This repository provides the cleaned implementation of the final frozen ECG-Age model, including signal preprocessing, model architecture, training, evaluation, and single-record inference.
 
 ## Overview
 
@@ -26,7 +26,7 @@ The final frozen pipeline uses:
 
 The hybrid ECG-Age model consists of:
 
-1. Lead-attention module
+1. Input-channel attention module
 2. Multi-scale 1D convolutional feature extraction
 3. Temporal convolutional network
 4. Transformer encoder
@@ -42,11 +42,15 @@ The final model contains **3,532,674 trainable parameters**.
 ## Repository structure
 
 - `configs/ecg_age.yaml` — frozen model configuration
+- `configs/inference.json` — frozen inference metadata and age-normalization values
+- `checkpoints/ecg_age_frozen_inference.pt` — compact frozen inference checkpoint
 - `src/model.py` — ECG-Age model architecture
 - `src/preprocessing.py` — frozen signal preprocessing
 - `src/dataset.py` — WFDB dataset loader
 - `scripts/train.py` — model training
 - `scripts/evaluate.py` — model evaluation
+- `scripts/infer_single.py` — single-record WFDB inference
+- `scripts/export_inference_checkpoint.py` — export utility for the compact inference checkpoint
 - `requirements.txt` — Python dependencies
 
 ## Installation
@@ -139,17 +143,34 @@ ECG-age gap is defined as predicted ECG age minus chronological age.
 
 By default, confidence intervals are estimated using 2,000 patient-level bootstrap replicates with seed 20260819.
 
+## Single-record inference
+
+A compact inference-only package derived from the validated frozen model is included at:
+
+`checkpoints/ecg_age_frozen_inference.pt`
+
+Frozen target normalization values are provided in `configs/inference.json`.
+
+Example:
+
+```bash
+python scripts/infer_single.py \
+  --checkpoint checkpoints/ecg_age_frozen_inference.pt \
+  --wfdb-record /path/to/record \
+  --json
+```
+
+The inference package contains model weights and inference metadata only; optimizer and training-state objects are omitted.
+
 ## Frozen model provenance
 
 - selected epoch: 12
 - development MAE: 7.3037868 years
 - trainable parameters: 3,532,674
 
-Frozen checkpoint SHA256:
+Frozen source checkpoint SHA256:
 
 `f9076fd3fb5dbda31b48069eac7b6517286f9e782ab4b8e3238821e7daf0e49a`
-
-The trained checkpoint is not distributed in this repository.
 
 ## Reproducibility validation
 
@@ -178,6 +199,10 @@ This repository does not distribute:
 - protected clinical data
 
 Users must obtain the source ECG data independently and comply with the applicable data-use requirements.
+
+## Research use
+
+This model is a research model and is not intended for clinical diagnosis or clinical decision-making.
 
 ## Citation
 
