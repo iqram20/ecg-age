@@ -20,6 +20,10 @@ scripts/original/
 *.pt
 *.pth
 *.ckpt
+!checkpoints/
+checkpoints/*
+!checkpoints/README.md
+!checkpoints/ecg_age_frozen_inference.pt
 
 # Patient-level outputs / manifests
 *predictions*.csv
