@@ -4,7 +4,9 @@ Official code for:
 
 **Morphology-aware deep learning for ECG-derived age estimation and its association with postoperative outcomes**
 
-This public repository provides the frozen ECG-Age inference checkpoint, model architecture, core preprocessing, and a simple single-record inference workflow.
+This public repository provides the ECG-Age model, core preprocessing, frozen inference checkpoint, and a simple single-record inference workflow, consistent with the code-availability statement in the manuscript.
+
+The full model-development, cohort-construction, postoperative-analysis, and figure-generation pipelines are not part of this public inference release.
 
 ## Overview
 
@@ -74,6 +76,10 @@ The compact inference package contains model weights and inference metadata only
 Frozen source checkpoint SHA256:
 
 `f9076fd3fb5dbda31b48069eac7b6517286f9e782ab4b8e3238821e7daf0e49a`
+
+## Code availability
+
+Code for the ECG-Age model and core preprocessing and inference workflow is publicly available in this repository. The frozen inference checkpoint and age-normalization metadata are also provided for research/demo use.
 
 ## Privacy and data availability
 
